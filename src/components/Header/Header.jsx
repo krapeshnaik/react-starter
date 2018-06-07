@@ -1,10 +1,42 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
+import { connect } from 'react-redux';
 import { header } from './header.scss';
 
-export default class Header extends Component {
+// actions
+import { updateHeaderAction, getHeaderAction } from './header.actions';
+
+class Header extends PureComponent {
     render() {
         return (
-            <header className={header}>Header comp</header>
+            <header className={header}>
+                <div>Header comp</div>
+                <div>{this.props.data}</div>
+                <button onClick={this.props.updateHeader}>Click</button>
+                <button onClick={this.props.getHeader}>Click</button>
+            </header>
         )
     }
 }
+
+const mapStateToProps = state => {
+    return {
+        ...state.header
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        updateHeader: () => {
+            dispatch(updateHeaderAction());
+        },
+
+        getHeader: () => {
+            dispatch(getHeaderAction());
+        }
+    }
+}
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Header);
